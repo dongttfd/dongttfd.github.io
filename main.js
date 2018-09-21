@@ -14,7 +14,25 @@ socket.on('user_list_online', user_list => {
     });
 });
 
+let customConfig;
 
+$.ajax({
+    url: 'https://service.xirsys.com/ice',
+    data: {
+        ident: 'dongtt',
+        secret: '0a1443c2-bd75-11e8-bbfc-f0ee4d74a4fc',
+        domain: 'dongttfd.github.io',
+        application: 'default',
+        room: 'default',
+        secure: 1
+    },
+
+    success: (data, status) => {
+        customConfig = data.d;
+    }
+
+    async: false
+});
 
 socket.on('user_offline', peerId => {
     $(`#${peerId}`).remove();
@@ -43,7 +61,14 @@ var playVideo = (idVideoTag, stream) => {
 // openStream().then(stream => playVideo('localVideo', stream));
 
 //init peer
-var peer = new Peer({key: 'peerjs', host: 'mypeer-dongtt.herokuapp.com', secure: true, port: 443});
+var peer = new Peer({
+    key: 'peerjs',
+    host: 'mypeer-dongtt.herokuapp.com',
+    secure: true,
+    port: 443,
+    config: customConfig
+});
+
 peer.on('open', id => {
     $('#myId').html(id);
 
