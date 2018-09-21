@@ -29,7 +29,7 @@ $.ajax({
 
     success: (data, status) => {
         customConfig = data.d;
-    }
+    },
 
     async: false
 });
